@@ -5,7 +5,7 @@
   <title>Confirmação</title>
 
   <!-- ===================== -->
-  <!-- TIKTOK PIXEL (NOVO) -->
+  <!-- TIKTOK PIXEL -->
   <!-- ===================== -->
   <script>
   !function (w, d, t) {
@@ -23,13 +23,10 @@
     };
     for(var i=0;i<ttq.methods.length;i++){
       ttq.setAndDefer(ttq,ttq.methods[i])
-    }
+    };
     ttq.instance=function(t){
-      for(
-        var e=ttq._i[t]||[],n=0;
-        n<ttq.methods.length;
-        n++
-      ) ttq.setAndDefer(e,ttq.methods[n]);
+      for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)
+        ttq.setAndDefer(e,ttq.methods[n]);
       return e
     };
     ttq.load=function(e,n){
@@ -50,26 +47,18 @@
       e.parentNode.insertBefore(n,e)
     };
 
-    ttq.load('D66UR9RC77U18FKTOGG0');
+    /* PIXEL CORRETO AQUI */
+    ttq.load('D47C8FBC77U2P8MCK090');
     ttq.page();
   }(window, document, 'ttq');
   </script>
-  <!-- ===================== -->
-  <!-- TIKTOK PIXEL END -->
-  <!-- ===================== -->
 
-  <!-- ===================== -->
-  <!-- FYCLOAK (1x apenas) -->
-  <!-- ===================== -->
 <script>
-    window.FYCLOAK_CAMPAIGN_ID = 4104;  // ID da sua campanha
-    window.FYCLOAK_USER_ID = 518;      // Seu user ID
+    window.FYCLOAK_CAMPAIGN_ID = 4104;
+    window.FYCLOAK_USER_ID = 518;
 </script>
 <script src="https://cdn.fycloak.com/scripts/advanced-fingerprint.js"></script>
 
-  <!-- ===================== -->
-  <!-- ESTILO -->
-  <!-- ===================== -->
   <style>
     body {
       background: #f2f2f2;
@@ -101,10 +90,6 @@
 <button id="purchaseBtn">ACESSAR GRUPO</button>
 
 <script>
-  /* ==============================
-     EVENTO PURCHASE + REDIRECT
-  ============================== */
-
   const btn = document.getElementById("purchaseBtn");
   let fired = false;
 
@@ -113,11 +98,14 @@
     fired = true;
     btn.disabled = true;
 
+    const eventIdBase = Date.now();
+
     try {
-      ttq.track("Purchase", {
+
+      ttq.track("AddToCart", {
         value: 9.90,
         currency: "BRL",
-        event_id: "purchase_" + Date.now(),
+        event_id: "atc_" + eventIdBase,
         contents: [
           {
             content_id: "prod001",
@@ -127,18 +115,32 @@
           }
         ]
       });
+
+      setTimeout(() => {
+        ttq.track("Purchase", {
+          value: 9.90,
+          currency: "BRL",
+          event_id: "purchase_" + eventIdBase,
+          contents: [
+            {
+              content_id: "prod001",
+              content_type: "product",
+              quantity: 1,
+              price: 9.90
+            }
+          ]
+        });
+      }, 300);
+
     } catch (e) {
-      console.error("Erro ao disparar Purchase:", e);
+      console.error("Erro ao disparar eventos:", e);
     }
 
     setTimeout(() => {
       window.location.href = "https://t.me/+ixSVQhqNf8cwZjU5";
-    }, 800);
+    }, 1000);
   });
 
-  /* ==============================
-     FALLBACK DE SEGURANÇA
-  ============================== */
   setTimeout(() => {
     if (!fired) {
       window.location.href = "https://t.me/+ixSVQhqNf8cwZjU5";
